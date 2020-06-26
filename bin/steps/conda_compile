@@ -7,6 +7,10 @@ VERSION=${VERSION_ARRAY[1]}
 
 MINICONDA_VERBOSITY=-v
 
+if [[ -n "$TRACE" ]]; then
+    MINICONDA_VERBOSITY=-vvv
+fi
+
 # The location of the pre-compiled python binary.
 VENDORED_MINICONDA="${CONTINUUM_URL}/miniconda/${MINICONDA_VERSION}-Linux-x86_64.sh"
 
