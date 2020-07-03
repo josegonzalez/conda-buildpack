@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set +e
 
-if [ -f .condarc ]; then
-    puts-step "Copying condarc file to miniconda directory"
-    cp .condarc /app/.heroku/miniconda
+puts-step "Initializing .condarc"
+touch /app/.heroku/miniconda/.condarc
+if [[ -f .condarc ]]; then
+  cp -f .condarc /app/.heroku/miniconda
 fi
 
 echo "nomkl" > $HOME/.heroku/miniconda/conda-meta/pinned
@@ -12,7 +13,6 @@ echo "python <3.8.0" >> $HOME/.heroku/miniconda/conda-meta/pinned
 if [[ $CONDA_VERSION =~ ^[0-9]+(\.[0-9]+)*$ ]]; then
     echo "conda ==${CONDA_VERSION}" >> $HOME/.heroku/miniconda/conda-meta/pinned
 fi
-echo "added pinned file in $HOME/.heroku/miniconda/conda-meta/pinned"
 
 conda config --set auto_update_conda False
 conda install $MINICONDA_VERBOSITY --no-update-deps pip --yes | indent
