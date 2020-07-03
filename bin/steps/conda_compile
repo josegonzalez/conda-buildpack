@@ -16,11 +16,13 @@ fi
 
 conda config --set always_yes True
 conda config --set auto_update_conda False
-conda config --set default_threads 3
 conda config --set show_channel_urls True
 conda config --set update_dependencies False
 conda config --add create_default_packages nomkl
 conda config --add create_default_packages pip
+
+# this option is not available for conda versions below 4.7.11
+conda config --set default_threads 3 2>/dev/null || true
 
 touch environment.yml
 if [[ -f conda-requirements.txt ]]; then
