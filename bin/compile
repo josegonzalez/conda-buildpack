@@ -66,6 +66,19 @@ export LANG=en_US.UTF-8
 # Switch to the repo's context.
 cd $BUILD_DIR
 
+# Setup conda and miniconda versions
+MINICONDA_VERSION=Miniconda3-4.5.12
+if [[ -f conda-runtime.txt ]]; then
+  MINICONDA_VERSION=$(cat conda-runtime.txt | tr -d "\n")
+fi
+IFS='-' read -r -a VERSION_ARRAY <<< ${MINICONDA_VERSION}
+CONDA_VERSION=${VERSION_ARRAY[1]}
+
+export CONDA_VERSION
+export MINICONDA_VERSION
+export MINICONDA_VERBOSITY=-v
+
+
 # Experimental pre_compile hook.
 source $BIN_DIR/steps/hooks/pre_compile
 
