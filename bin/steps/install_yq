@@ -5,7 +5,7 @@ YQ_VERSION=3.3.2
 VENDORED_YQ="${YQ_BASE_URL}/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
 if [[ ! -d /app/.heroku/miniconda/bin/yq ]]; then
   puts-step "Installing yq for .condarc modification"
-  if ! curl -o /app/.heroku/miniconda/bin/yq --fvL $VENDORED_YQ ; then
+  if ! curl -o /app/.heroku/miniconda/bin/yq -L --fv $VENDORED_YQ ; then
       exit 1
   fi
 
