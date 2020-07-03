@@ -16,6 +16,7 @@ fi
 
 conda config --set always_yes True
 conda config --set auto_update_conda False
+conda config --set default_threads 3
 conda config --set show_channel_urls True
 conda config --set update_dependencies False
 conda config --add create_default_packages nomkl
