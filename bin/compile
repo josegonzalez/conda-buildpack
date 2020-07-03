@@ -93,6 +93,7 @@ export MINICONDA_VERBOSITY
 source $BIN_DIR/steps/hooks/pre_compile
 
 # ### The Cache
+puts-step "Restoring build cache"
 mkdir -p $CACHE_DIR
 
 # Restore old artifacts from the cache.
