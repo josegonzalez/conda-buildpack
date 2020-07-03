@@ -37,6 +37,8 @@ fi
 cat environment.yml
 cat /app/.heroku/miniconda/.condarc
 
+sleep 10
+
 puts-step "Installing dependencies using Conda"
 conda env $MINICONDA_VERBOSITY create -f environment.yml | indent
 
