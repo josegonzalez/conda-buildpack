@@ -80,10 +80,14 @@ fi
 IFS='-' read -r -a VERSION_ARRAY <<< ${MINICONDA_VERSION}
 CONDA_VERSION=${VERSION_ARRAY[1]}
 
+MINICONDA_VERBOSITY=-v
+if [[ -n "$BUILDPACK_XTRACE" ]]; then
+  MINICONDA_VERBOSITY=-vv
+fi
+
 export CONDA_VERSION
 export MINICONDA_VERSION
-export MINICONDA_VERBOSITY=-v
-
+export MINICONDA_VERBOSITY
 
 # Experimental pre_compile hook.
 source $BIN_DIR/steps/hooks/pre_compile
