@@ -14,12 +14,15 @@ if [[ $CONDA_VERSION =~ ^[0-9]+(\.[0-9]+)*$ ]]; then
     echo "conda ==${CONDA_VERSION}" >> $HOME/.heroku/miniconda/conda-meta/pinned
 fi
 
+conda config --set always_yes True
 conda config --set auto_update_conda False
+conda config --set show_channel_urls True
+conda config --set update_dependencies False
 conda config --add create_default_packages nomkl
 conda config --add create_default_packages pip
 
 puts-step "Installing dependencies using Conda"
-conda install $MINICONDA_VERBOSITY --no-update-deps --file conda-requirements.txt --yes | indent
+conda install $MINICONDA_VERBOSITY --file conda-requirements.txt | indent
 
 if [[ -f requirements.txt ]]; then
   puts-step "Installing dependencies using Pip"
