@@ -34,6 +34,9 @@ if [[ -f conda-requirements.txt ]]; then
   done < conda-requirements.txt
 fi
 
+cat environment.yml
+cat /app/.heroku/miniconda/.condarc
+
 puts-step "Installing dependencies using Conda"
 conda env $MINICONDA_VERBOSITY create -f environment.yml | indent
 
