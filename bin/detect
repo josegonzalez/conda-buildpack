@@ -14,9 +14,16 @@
 
 BUILD_DIR=$1
 
-# Exit early if app is clearly not Python.
+# Exit if the conda-requirements.txt and conda-runtime.txt are specified
 if [ -f $BUILD_DIR/conda-requirements.txt ] && [ -f $BUILD_DIR/conda-runtime.txt ]; then
   echo Python/Conda
-else
-  exit 1
+  exit 0
 fi
+
+# Exit if there is an environment.yml
+if [ -f $BUILD_DIR/environment.yml ]; then
+  echo Python/Conda
+  exit 0
+fi
+
+exit 1
