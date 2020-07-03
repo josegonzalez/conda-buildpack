@@ -27,6 +27,7 @@ conda config --set default_threads 3 2>/dev/null || true
 conda config --set update_dependencies False 2>/dev/null || true
 
 touch environment.yml
+yq w -i environment.yml name default
 if [[ -f conda-requirements.txt ]]; then
   puts-step "Found conda-requirements.txt, injecting into environment.yml"
   while IFS= read -r line || [[ -n "$line" ]]; do
@@ -38,7 +39,7 @@ cat environment.yml
 cat /app/.heroku/miniconda/.condarc
 
 puts-step "Installing dependencies using Conda"
-conda env update $MINICONDA_VERBOSITY -f environment.yml | indent
+conda env update $MINICONDA_VERBOSITY -f environment.yml -n default | indent
 
 if [[ -f requirements.txt ]]; then
   puts-step "Installing dependencies using Pip"
