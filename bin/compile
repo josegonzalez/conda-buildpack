@@ -40,6 +40,12 @@ if [[ -n ${BUILDPACK_CONTINUUM_URL:-} ]]; then
 fi
 export CONTINUUM_URL
 
+YQ_BASE_URL="https://github.com"
+if [[ -n ${BUILDPACK_YQ_BASE_URL:-} ]]; then
+    YQ_BASE_URL="$YQ_BASE_URL"
+fi
+export YQ_BASE_URL
+
 # Syntax sugar.
 source $BIN_DIR/utils
 
@@ -100,6 +106,7 @@ mkdir -p $(dirname $PROFILE_PATH)
 
 # Actuall do the conda steps.
 source $BIN_DIR/steps/install_miniconda
+source $BIN_DIR/steps/install_yq
 source $BIN_DIR/steps/conda_compile
 
 # ### Finalize

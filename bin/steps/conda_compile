@@ -21,8 +21,16 @@ conda config --set update_dependencies False
 conda config --add create_default_packages nomkl
 conda config --add create_default_packages pip
 
+touch environment.yml
+if [[ -f conda-requirements.txt ]]; then
+  puts-step "Found conda-requirements.txt, injecting into environment.yml"
+  while IFS="" read -r p || [ -n "$p" ]; do
+    yq w -i environment.yml dependencies[+] "$p" 
+  done < conda-requirements.txt
+fi
+
 puts-step "Installing dependencies using Conda"
-conda install $MINICONDA_VERBOSITY --file conda-requirements.txt | indent
+conda env $MINICONDA_VERBOSITY create -f environment.yml | indent
 
 if [[ -f requirements.txt ]]; then
   puts-step "Installing dependencies using Pip"
