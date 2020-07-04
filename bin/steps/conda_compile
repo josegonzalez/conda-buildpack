@@ -31,17 +31,24 @@ yq w -i environment.yml name default
 if [[ -f conda-requirements.txt ]]; then
   puts-step "Found conda-requirements.txt, injecting into environment.yml"
   while IFS= read -r line || [[ -n "$line" ]]; do
-    yq w -i environment.yml dependencies[+] "$line" 
+    yq w -i environment.yml dependencies[+] "$line"
   done < conda-requirements.txt
+fi
+
+if [[ -f requirements.txt ]]; then
+  puts-step "Found requirements.txt, injecting pip dependencies into environment.yml"
+  cat << EOF > conda-pip.yml
+dependencies:
+- pip:
+  - -r file:requirements.txt
+EOF
+
+  yq m -i -c environment.yml conda-pip.yml
+  rm conda-pip.yml
 fi
 
 puts-step "Installing dependencies using Conda"
 conda env update $MINICONDA_VERBOSITY -f environment.yml -n default | indent
-
-if [[ -f requirements.txt ]]; then
-  puts-step "Installing dependencies using Pip"
-  pip install -r requirements.txt  --exists-action=w | indent
-fi
 
 puts-step "Cleaning the conda environment"
 conda clean -pt --yes > /dev/null
